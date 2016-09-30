@@ -1,9 +1,9 @@
 # Update these variables to match the locations
 JUNIT_JAR=lib/junit-4.12.jar
-HAMCREST_JAR=lib/hamcrest-core-1.3.jar
+HAMCREST_JAR=lib/hamcrest-junit-2.0.0.0.jar
 
 # These variables should not need to be changed
-TEST_CLASSPATH=${JUNIT_JAR}:${HAMCREST_JAR}
+TEST_CLASSPATH=${JUNIT_JAR};${HAMCREST_JAR}
 # Choosing build instead of bin to avoid conflicts with Eclipse
 BUILD_DIR=build
 SRC_FOLDERS=edu/sjsu/fwjs
@@ -13,7 +13,7 @@ ZIP_FILE=solution.zip
 .PHONY: all test run clean spotless
 all:
 	mkdir -p ${BUILD_DIR}/${SRC_FOLDERS}
-	javac -cp ${TEST_CLASSPATH} -d ${BUILD_DIR} src/${SRC_FOLDERS}/*.java testSrc/${SRC_FOLDERS}/*.java
+	javac src/${SRC_FOLDERS}/*.java testSrc/${SRC_FOLDERS}/*.java -cp ${TEST_CLASSPATH} -d ${BUILD_DIR}
 
 test:
 	java -cp ${BUILD_DIR}:${TEST_CLASSPATH} org.junit.runner.JUnitCore ${PACKAGE_NAME}.ExpressionTest
