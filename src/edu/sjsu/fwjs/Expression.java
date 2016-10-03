@@ -100,7 +100,7 @@ class BinOpExpr implements Expression {
             case EQ:
                 return new BoolVal(a.equals(b));
             default:
-                return null;
+                return new NullVal();
         }
     }
 }
@@ -176,7 +176,7 @@ class VarDeclExpr implements Expression {
     public Value evaluate(Environment env) {
         Value a = exp.evaluate(env);
         try { env.createVar(varName, a); }
-        catch (Exception e) { System.out.println(e); }
+        catch (Exception e) { throw new RuntimeException(); }
         return a;
     }
 }
@@ -227,11 +227,15 @@ class FunctionAppExpr implements Expression {
     }
     public Value evaluate(Environment env) {
         Value a = f.evaluate(env);
-        if (!(a instanceof ClosureVal) || (a == null))
+        Value b = new BoolVal(false);
+        if (!(a instanceof ClosureVal) || a == null)
             throw new RuntimeException();
         List<Value> valueList = new ArrayList<Value>();
         for(int i = 0; i < args.size(); i++)
             valueList.add((args.get(i)).evaluate(env));
-        return ((ClosureVal) a).apply(valueList);
+        try {
+            b = ((ClosureVal) a).apply(valueList);
+        } catch(Exception e) { throw new RuntimeException(); }
+        return b;
     }
 }

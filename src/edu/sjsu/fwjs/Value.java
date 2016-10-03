@@ -98,9 +98,7 @@ class ClosureVal implements Value {
         try {
             for(int i = 0; i < l; i++)
                 localNew.createVar(params.get(i), argVals.get(i));
-        } catch(Exception e) {
-            System.out.println(e);
-        }
+        } catch(Exception e) { throw new RuntimeException(); }
         return body.evaluate(localNew);
     }
 }
